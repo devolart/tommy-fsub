@@ -181,17 +181,14 @@ class Helpers:
 helpers = Helpers(Bot)
 
 
-class Filter:
+class Decorator:
     @staticmethod
     def decorator(func) -> callable:
         @functools.wraps(func)
         async def wrapped(client, event):
             if hasattr(event, 'from_user'):
                 user = event.from_user.id
-            elif (
-                hasattr(event, 'message')
-                and hasattr(event.message, 'chat')
-            ):
+            elif hasattr(event, 'message') and hasattr(event.message, 'chat'):
                 user = event.message.chat.id
             else:
                 return
@@ -204,7 +201,7 @@ class Filter:
         return self.decorator(func)
 
 
-Filter = Filter()
+decorator = Decorator()
 
 
 class Markup:
